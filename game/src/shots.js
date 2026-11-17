@@ -14,14 +14,26 @@ export function applyShot(game, scene, seed) {
   initWorld(game);
 
   if (scene === 'title') {
+    // Hero cover: the comet streaks up-right toward a large glowing Sun,
+    // past a ringed planet and a trail of shards. The whole story in one shot.
     game.screen = 'title';
     game.time = 1.4;
-    // A comet parked mid-sky with a glowing tail for the cover.
+    game.distance = 10500; // far enough that the Sun has risen on the right
+    const d = game.distance;
     game.comet.x = 430;
     game.comet.y = 430;
-    for (let i = 0; i < 26; i++) {
-      game.comet.tail.push({ x: 430 - i * 14, y: 430 + Math.sin(i * 0.4) * 10 });
+    // Tail trails down-left, so the comet reads as flying up-right to the Sun.
+    for (let i = 0; i < 34; i++) {
+      game.comet.tail.push({ x: 430 - i * 13, y: 430 + i * 7 + Math.sin(i * 0.35) * 8 });
     }
+    game.entities = [
+      { kind: 'planet', worldX: d + 760, y: 540, r: 66, color: 'planetB', ring: true, used: false, phase: 0.4 },
+      { kind: 'shard', worldX: d + 560, y: 500, baseY: 500, phase: 0.5, r: 9, taken: false },
+      { kind: 'shard', worldX: d + 606, y: 462, baseY: 462, phase: 1.2, r: 9, taken: false },
+      { kind: 'shard', worldX: d + 652, y: 500, baseY: 500, phase: 2.1, r: 9, taken: false },
+      { kind: 'shard', worldX: d + 900, y: 300, baseY: 300, phase: 0.2, r: 9, taken: false },
+      { kind: 'rock', worldX: d + 980, y: 560, r: 26, drift: 0, spin: 0.4, angle: 0.9, seed: 12 },
+    ];
     return;
   }
 
@@ -46,10 +58,13 @@ export function applyShot(game, scene, seed) {
       { kind: 'shard', worldX: d + 566, y: 254, baseY: 254, phase: 1.2, r: 9, taken: false },
       { kind: 'shard', worldX: d + 612, y: 300, baseY: 300, phase: 2.1, r: 9, taken: false },
       { kind: 'shard', worldX: d + 700, y: 470, baseY: 470, phase: 0.2, r: 9, taken: false },
+      { kind: 'shard', worldX: d + 746, y: 424, baseY: 424, phase: 1.0, r: 9, taken: false },
+      { kind: 'shard', worldX: d + 792, y: 470, baseY: 470, phase: 1.8, r: 9, taken: false },
       { kind: 'rock', worldX: d + 820, y: 180, r: 30, drift: 10, spin: 0.5, angle: 0.7, seed: 12 },
       { kind: 'rock', worldX: d + 940, y: 560, r: 22, drift: -14, spin: -0.8, angle: 2.1, seed: 44 },
       { kind: 'rock', worldX: d + 1080, y: 330, r: 36, drift: 6, spin: 0.3, angle: 1.2, seed: 77 },
       { kind: 'planet', worldX: d + 1000, y: 130, r: 74, color: 'planetA', ring: true, used: false, phase: 0.4 },
+      { kind: 'planet', worldX: d + 1180, y: 480, r: 52, color: 'planetC', ring: false, used: false, phase: 1.3 },
       { kind: 'hole', worldX: d + 1150, y: 600, r: 46, phase: 1.1 },
     ];
     game.banner = null;
